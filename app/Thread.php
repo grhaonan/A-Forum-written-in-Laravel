@@ -8,13 +8,20 @@ class Thread extends Model
 {
 
 
-//    protected $guarded = [];
+    protected $guarded = [];
 
 
     public function path ()
 
     {
-        return '/threads/' . $this->id;
+        return '/threads/' . $this->channel->name. '/'.$this->id;
+    }
+
+    public function channel(){
+
+
+        return $this->belongsTo('App\Channel', 'channel_id');
+
     }
 
     public function replies ()
@@ -35,5 +42,6 @@ class Thread extends Model
     {
         $this->replies()->create($reply);
     }
+
 
 }

@@ -42,5 +42,16 @@
         @else
         <p class="text-center">Please <a href="{{route('login')}}">sign in</a> to participate in this discuss</p>
         @endif
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
     </div>
 @endsection
