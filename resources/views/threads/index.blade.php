@@ -9,7 +9,7 @@
                     <div class="panel-body">
                         @foreach($threads as $thread)
                             <article>
-                                <h3>{{$thread->title}}</h3>
+                                <h3><a href="{{$thread->path()}}">{{$thread->title}}</a></h3>
                             </article>
 
                             <div class="body">{{$thread->body}}</div>

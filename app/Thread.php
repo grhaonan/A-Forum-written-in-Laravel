@@ -8,17 +8,32 @@ class Thread extends Model
 {
 
 
+//    protected $guarded = [];
+
+
     public function path ()
 
     {
-
-        return '/threads' . $this->id;
-
+        return '/threads/' . $this->id;
     }
 
     public function replies ()
+
     {
         return $this->hasMany('App\Reply', 'thread_id');
+    }
+
+   //The user who post the thread
+    public function user ()
+
+    {
+        return $this->belongsTo('App\User', 'user_id');
+    }
+
+    public function addReply ($reply)
+
+    {
+        $this->replies()->create($reply);
     }
 
 }

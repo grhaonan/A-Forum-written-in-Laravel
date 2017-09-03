@@ -8,6 +8,8 @@ class Reply extends Model
 {
     //Creator is someone who replied.
 
+    protected $guarded = [];
+
     public function creator()
 
     {
