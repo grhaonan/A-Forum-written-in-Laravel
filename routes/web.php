@@ -25,6 +25,8 @@ Route::get('/threads/create','ThreadController@create')->name('createThread');
 
 Route::post('/threads', 'ThreadController@store')->name('storeThread');
 
+Route::get('/threads/{channel}', 'ThreadController@index')->name('channelList');
+
 Route::get('/threads/{channel}/{thread}', 'ThreadController@show')->name('showThread');
 
 Route::post('/threads/{channel}/{thread}/replies', 'ReplyController@store');

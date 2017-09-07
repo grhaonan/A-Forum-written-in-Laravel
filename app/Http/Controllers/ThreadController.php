@@ -2,24 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Channel;
 use App\Http\Requests\storeThread;
 use App\Thread;
 use Illuminate\Http\Request;
 
-class ThreadController extends Controller
-{
+class ThreadController extends Controller {
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($channelSlug = null)
     {
-        //
+        //check if the user want to list the page based on channel slug filter
 
-        $threads = Thread::latest()->get();
+        if ($channelSlug)
+        {
+
+            $channelSlug = Channel::where('slug', $channelSlug)->first();
+            if ($channelSlug !== null)
+            {
+                $threads = $channelSlug->threads()->get();
+            } else
+            {
+                $threads = [];
+            }
+        } else
+        {
+            $threads = Thread::latest()->get();
+        }
 
         return view('threads.index', compact('threads'));
+
     }
 
     /**
@@ -30,10 +46,12 @@ class ThreadController extends Controller
     public function create()
     {
         //
-        if(auth()->check()){
+        if (auth()->check())
+        {
             return view('threads.create');
-        }else{
-           return redirect(route('login'));
+        } else
+        {
+            return redirect(route('login'));
         }
 
     }
@@ -41,14 +59,14 @@ class ThreadController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(storeThread $request)
 
     {
 
-       $theStoredThread = Thread::create([
+        $theStoredThread = Thread::create([
             'user_id' => auth()->user()->id,
             'title' => $request->input('title'),
             'body' => $request->input('body'),
@@ -61,7 +79,7 @@ class ThreadController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Thread  $thread
+     * @param  \App\Thread $thread
      * @return \Illuminate\Http\Response
      */
     public function show($channelId, Thread $thread)
@@ -74,7 +92,7 @@ class ThreadController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Thread  $thread
+     * @param  \App\Thread $thread
      * @return \Illuminate\Http\Response
      */
     public function edit(Thread $thread)
@@ -85,8 +103,8 @@ class ThreadController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Thread  $thread
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Thread $thread
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Thread $thread)
@@ -97,7 +115,7 @@ class ThreadController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Thread  $thread
+     * @param  \App\Thread $thread
      * @return \Illuminate\Http\Response
      */
     public function destroy(Thread $thread)
