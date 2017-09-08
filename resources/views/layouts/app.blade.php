@@ -38,18 +38,33 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
                     {{--threads nav--}}
-                    <li><a href="{{route('threads')}}">Threads</a></li>&nbsp;
-                    {{--channels--}}
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">Browse<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{route('threads')}}">All Threads</a></li>
+                            @if(auth()->check())
+                            <li><a href="{{route('threads')}}?by={{auth()->user()->name}}">All Threads Post By Me</a></li>
+                            @endif
+                        </ul>
+                    </li>
+
+                    {{--channel slug nav--}}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">Channels<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            @foreach(App\Channel::all() as $channel)
-                                <li><a href={{ route('channelList',['$channel' => $channel->slug]) }}>{{$channel->slug}}</a></li>
-                                @endforeach
+                            @foreach($channels as $channel)
+                                <li>
+                                    <a href={{ route('channelList',['$channel' => $channel->slug]) }}>{{$channel->slug}}</a>
+                                </li>
+                            @endforeach
                         </ul>
                     </li>
 
+                    {{--Create Threads Nav--}}
+                    <li ><a href={{ route('createThread') }}>Create Thread</a></li>
 
                 </ul>
 

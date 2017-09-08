@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Channel;
 use App\Http\Requests\storeThread;
 use App\Thread;
+use App\User;
 use Illuminate\Http\Request;
 
 class ThreadController extends Controller {
@@ -20,19 +21,28 @@ class ThreadController extends Controller {
 
         if ($channelSlug)
         {
-
             $channelSlug = Channel::where('slug', $channelSlug)->first();
             if ($channelSlug !== null)
             {
-                $threads = $channelSlug->threads()->get();
+                $threads = $channelSlug->threads();
             } else
             {
                 $threads = [];
             }
         } else
         {
-            $threads = Thread::latest()->get();
+            $threads = Thread::latest();
         }
+
+        //check if the user want to list the treads created by certain username
+
+        if($userName = \request('by')){
+            $userId = User::where('name', $userName)->firstOrFail()->id;
+            $threads = $threads->where('user_id', $userId);
+        }
+
+         $threads =  $threads->get();
+
 
         return view('threads.index', compact('threads'));
 
@@ -70,7 +80,7 @@ class ThreadController extends Controller {
             'user_id' => auth()->user()->id,
             'title' => $request->input('title'),
             'body' => $request->input('body'),
-            'channel_id' => $request->input('channel_id')
+            'channel_id' => $request->input('channelId')
         ]);
 
         return redirect($theStoredThread->path());

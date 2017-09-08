@@ -11,16 +11,21 @@
                             {{csrf_field()}}
                             <div class="form-group">
                                 <label>Thread Title</label>
-                                <textarea class="form-control" name="title" id="title" placeholder="The thread title" rows="1"></textarea>
+                                <input type="text" class="form-control" id="title" name="title" value="{{old('title')}}" placeholder="The thread title">
                             </div>
                             <div class="form-group">
                                 <label>Thread Body</label>
-                                <textarea class="form-control" name="body" id="body" placeholder="The thread body" rows="3"></textarea>
+                                <textarea class="form-control" name="body" id="body" placeholder="The thread body" rows="3">{{old('body')}}</textarea>
                             </div>
 
                             <div class="form-group">
                                 <label>Channel ID</label>
-                                <textarea class="form-control" name="channel_id" id="channel_id" placeholder="The channel id" rows="1"></textarea>
+                                <select name="channelId" id="channelId" class="form-control">
+                                    <option class="placeholder" selected disabled value="">chose a slug</option>
+                                    @foreach($channels as $channel)
+                                    <option value="{{$channel->id}}">{{$channel->slug}}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <button type="submit" class="btn btn-default" >POST</button>

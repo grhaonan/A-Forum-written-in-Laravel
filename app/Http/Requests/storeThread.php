@@ -27,7 +27,7 @@ class storeThread extends FormRequest
             //
             'title' => 'required',
             'body' => 'required',
-            'channel_id' =>'required|exists:channels,id'
+            'channelId' =>'required|exists:channels,id'
         ];
     }
 
@@ -36,8 +36,8 @@ class storeThread extends FormRequest
         return  [
             'title.required' => 'Title is required',
             'body.required' => 'Body is required',
-            'channel_id.required' => 'Channel id is required',
-            'channel_id.exists' => 'The channel id has to be a valid value'
+            'channelId.required' => 'Channel id is required',
+            'channelId.exists' => 'The channel id has to be a valid value'
         ];
     }
 

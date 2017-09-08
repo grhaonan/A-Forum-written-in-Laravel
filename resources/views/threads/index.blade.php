@@ -7,6 +7,7 @@
                     <div class="panel-heading">Threads List</div>
                     <div class="panel-body">
                         @foreach($threads as $thread)
+                            <p>Author:{{$thread->user->name}}</p>
                             <article>
                                 <h3><a href="{{$thread->path()}}">{{$thread->title}}</a></h3>
                             </article>
