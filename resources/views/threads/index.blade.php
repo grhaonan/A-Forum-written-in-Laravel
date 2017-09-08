@@ -14,6 +14,7 @@
                             <div class="body">{{$thread->body}}</div>
                             <hr>
                         @endforeach
+                        {{$threads->links()}}
                     </div>
                 </div>
             </div>
