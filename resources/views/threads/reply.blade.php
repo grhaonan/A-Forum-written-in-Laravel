@@ -1,6 +1,6 @@
 <div class="panel panel-default">
     <div class="panel-heading">
-        <a href="#">
+        <a href={{route('profiles', $reply->creator->name)}}>
             {{$reply->creator->name}}
         </a>
         Replied

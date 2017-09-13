@@ -29,5 +29,9 @@ Route::get('/threads/{channel}', 'ThreadController@index')->name('channelList');
 
 Route::get('/threads/{channel}/{thread}', 'ThreadController@show')->name('showThread');
 
+Route::delete('/threads/{channel}/{thread}', 'ThreadController@destroy')->name('deleteThread');
+
 Route::post('/threads/{channel}/{thread}/replies', 'ReplyController@store');
+
+Route::get('/profiles/{user}', 'ProfilesController@show')->name('profiles');
 

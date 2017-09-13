@@ -3,20 +3,24 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Threads List</div>
-                    <div class="panel-body">
-                        @foreach($threads as $thread)
-                            <p>Author:{{$thread->user->name}}</p>
-                            <article>
-                                <h3><a href="{{$thread->path()}}">{{$thread->title}}</a></h3>
-                            </article>
+                @foreach($threads as $thread)
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="level">
+                                <div class="flex">
+                                    {{$thread->user->name}}
+                                    Post:
+                                    <a href="{{$thread->path()}}">{{$thread->title}}</a>
+                                </div>
+                                <strong><a href="{{$thread->path()}}">{{$thread->replies()->count()}} {{str_plural('reply', $thread->replies()->count())}}</a></strong>
+                            </div>
+                        </div>
+                        <div class="panel-body">
                             <div class="body">{{$thread->body}}</div>
-                            <hr>
-                        @endforeach
-                        {{$threads->links()}}
+                        </div>
                     </div>
-                </div>
+                @endforeach
+                {{$threads->links()}}
             </div>
         </div>
     </div>
