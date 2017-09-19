@@ -44,6 +44,7 @@ class ThreadController extends Controller {
          $threads =  $threads->paginate(6);
 
 
+
         return view('threads.index', compact('threads'));
 
     }
@@ -97,6 +98,9 @@ class ThreadController extends Controller {
         //当在路由中使用/threads/{thread}的方式后，这里的$thread的数值
         //实际就是Thread:find($id)的结果了，这里laravel做了智能处理，很方便。
 
+
+
+
         return view('threads.show',[
             'thread' => $thread,
             'replies' => $thread->replies()->paginate(2)
@@ -135,7 +139,9 @@ class ThreadController extends Controller {
      */
     public function destroy($channel, Thread $thread)
     {
-        //
+        //only authorized user-thread creator can delete the thread;
+        $this->authorize('delete', $thread);
+
         $thread->replies()->delete();
         $thread->delete();
 

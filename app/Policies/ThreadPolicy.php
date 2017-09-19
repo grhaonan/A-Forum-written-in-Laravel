@@ -54,7 +54,7 @@ class ThreadPolicy
      */
     public function delete(User $user, Thread $thread)
     {
-        //only the thread cr
+        //only the thread creator can delete the thread
         return $thread->user_id == $user->id;
 
     }

@@ -35,3 +35,4 @@ Route::post('/threads/{channel}/{thread}/replies', 'ReplyController@store');
 
 Route::get('/profiles/{user}', 'ProfilesController@show')->name('profiles');
 
+Route::delete('/replies/{reply}', 'ReplyController@destroy')->name('deleteReply');
