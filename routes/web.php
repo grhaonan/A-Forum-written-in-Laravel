@@ -31,8 +31,12 @@ Route::get('/threads/{channel}/{thread}', 'ThreadController@show')->name('showTh
 
 Route::delete('/threads/{channel}/{thread}', 'ThreadController@destroy')->name('deleteThread');
 
-Route::post('/threads/{channel}/{thread}/replies', 'ReplyController@store');
+Route::post('/threads/{channel}/{thread}/replies', 'ReplyController@store')->name('replyThread');
 
-Route::get('/profiles/{user}', 'ProfilesController@show')->name('profiles');
+Route::post('/threads/{channel}/{thread}/subscribe', 'ThreadSubscriptionController@store')->name('subscribeThread')->middleware('auth');
+
+Route::delete('/threads/{channel}/{thread}/subscribe', 'ThreadSubscriptionController@destroy')->name('unsubscribeThread')->middleware('auth');
+
+Route::get('/profiles/{user}', 'ProfilesController@show')->name('profiles')->name('myProfile');
 
 Route::delete('/replies/{reply}', 'ReplyController@destroy')->name('deleteReply');
