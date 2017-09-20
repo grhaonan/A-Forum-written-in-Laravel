@@ -15,7 +15,7 @@ class AddUniqueContrainToTableThreadSubscriptions extends Migration
     {
         Schema::table('thread_subscriptions', function (Blueprint $table) {
             //
-            $table->unique('user_id', 'thread_id');
+            $table->unique(['user_id', 'thread_id']);
         });
     }
 

@@ -99,8 +99,6 @@ class ThreadController extends Controller {
         //实际就是Thread:find($id)的结果了，这里laravel做了智能处理，很方便。
 
 
-
-
         return view('threads.show',[
             'thread' => $thread,
             'replies' => $thread->replies()->paginate(2)

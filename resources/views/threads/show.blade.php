@@ -12,11 +12,11 @@
                                 {{$thread->title}}
                             </span>
                             @can('delete', $thread)
-                           <form action="{{$thread->path()}}" method="POST">
-                               {{csrf_field()}}
-                               {{method_field('delete')}}
-                               <button type="submit" class="btn btn-link">Delete Thread</button>
-                           </form>
+                                <form action="{{$thread->path()}}" method="POST">
+                                    {{csrf_field()}}
+                                    {{method_field('delete')}}
+                                    <button type="submit" class="btn btn-link">Delete Thread</button>
+                                </form>
                             @endcan
                         </div>
                     </div>
@@ -70,6 +70,25 @@
                             has {{$thread->replies->count()}} {{str_plural('comment',$thread->replies()->count())}}
 
                         </p>
+                        @if(auth()->check())
+                            {{--if has not been subscribed by this user, then the user can subscribe--}}
+                            @if(!($thread->isSubscribed()))
+                                <form action="{{route('subscribeThread', [$thread->channel->name, $thread])}}"
+                                      method="POST">
+                                    {{csrf_field()}}
+                                    <button type="submit" class="btn btn-primary">Subscribe</button>
+
+                                </form>
+                                {{--if has been subscribed by this user, then the user can unsubscribe it--}}
+                            @else
+                                <form action="{{route('unsubscribeThread', [$thread->channel->name, $thread])}}"
+                                      method="POST">
+                                    {{csrf_field()}}
+                                    {{method_field('DELETE')}}
+                                    <button type="submit" class="btn btn-danger">Unsubscribe</button>
+                                </form>
+                            @endif
+                        @endif
                     </div>
                 </div>
             </div>

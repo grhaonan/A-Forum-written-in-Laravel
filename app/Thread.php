@@ -59,11 +59,18 @@ class Thread extends Model
     public function subscribe ($userId = null)
 
     {
+        // in case the record was softdeleted, restore it
+        // otherwise, create a new record.
+        if ($this->isSubscriptionTrashed()){
 
-        $this->subscriptions()->create([
+            $this->restoreTrashedSubscription();
+        }else{
 
-            'user_id' => $userId ?: auth()->id()
-        ]);
+            $this->subscriptions()->create([
+
+                'user_id' => $userId ?: auth()->id()
+            ]);
+        }
 
     }
 
@@ -80,9 +87,34 @@ class Thread extends Model
     public function subscriptions ()
 
     {
-        $this->hasMany(ThreadSubscription::class, 'thread_id');
+        return $this->hasMany(ThreadSubscription::class, 'thread_id');
     }
 
 
+    public function isSubscribed ($userId = null)
+    {
+        return $this->subscriptions()
+            ->where('user_id', $userId ?: auth()->id())
+            ->exists();
+    }
+
+    //check if the subscription was previously trashed by softdelete
+    //
+    public function isSubscriptionTrashed ($userId = null)
+
+    {
+        return $this->subscriptions()
+            ->onlyTrashed()
+            ->where('user_id', $userId ?: auth()->id())
+            ->exists();
+    }
+
+    public function restoreTrashedSubscription($userId = null)
+    {
+        $this->subscriptions()
+            ->withTrashed()
+            ->where('user_id', $userId ?: auth()->id())
+            ->restore();
+    }
 
 }

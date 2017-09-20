@@ -37,6 +37,6 @@ Route::post('/threads/{channel}/{thread}/subscribe', 'ThreadSubscriptionControll
 
 Route::delete('/threads/{channel}/{thread}/subscribe', 'ThreadSubscriptionController@destroy')->name('unsubscribeThread')->middleware('auth');
 
-Route::get('/profiles/{user}', 'ProfilesController@show')->name('profiles')->name('myProfile');
+Route::get('/profiles/{user}', 'ProfilesController@show')->name('profiles');
 
 Route::delete('/replies/{reply}', 'ReplyController@destroy')->name('deleteReply');
